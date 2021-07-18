@@ -1,0 +1,24 @@
+{
+  "name": "conways-game-of-life",
+  "version": "1.0.0",
+  "description": "A Program I made in Typescript to make explorations of Conway's Game Of Life easier",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RedBlazerFlame/conways-game-of-life.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RedBlazerFlame/conways-game-of-life/issues"
+  },
+  "homepage": "https://github.com/RedBlazerFlame/conways-game-of-life#readme"
+}
