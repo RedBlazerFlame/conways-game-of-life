@@ -18,7 +18,7 @@ export class BaseState {
     compile() {
         let compiledState = new Map();
         for (let entry of this.__state.entries()) {
-            compiledState.set(Vector.add(this.__origin, entry[0]), entry[1]);
+            compiledState.set(JSON.stringify(Vector.add(this.__origin, Vector.from(JSON.parse(entry[0]))).entries), entry[1]);
         }
         return compiledState;
     }
@@ -43,12 +43,9 @@ export class CompositionState {
         let compiledStates = this.__state.map(i => i.compile());
         let reducedState = compiledStates.reduce((acc, cur) => new Map([...acc, ...cur]), new Map([]));
         let resultState = new Map([]);
-        let addedKeys = [];
-        for (let entry of reducedState.entries()) {
-            if (!addedKeys.includes(JSON.stringify(Vector.add(this.__origin, entry[0])))) {
-                resultState.set(Vector.add(this.__origin, entry[0]), entry[1]);
-                addedKeys.push(JSON.stringify(Vector.add(this.__origin, entry[0])));
-            }
+        let uniqueKeys = [...new Set(reducedState.keys())];
+        for (let key of uniqueKeys) {
+            resultState.set(JSON.stringify(Vector.add(this.__origin, Vector.from(JSON.parse(key))).entries), reducedState.get(key));
         }
         return resultState;
     }

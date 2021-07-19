@@ -7,21 +7,19 @@ export const gameOfLifeConfig = {
         for (let vectorCoordinates of oldStateKeys) {
             for (let y = -1; y <= 1; y++) {
                 for (let x = -1; x <= 1; x++) {
-                    let newVector = Vector.add(vectorCoordinates, new Vector([x, y]));
-                    if (!statesToInspect.reduce((acc, cur) => acc || (Vector.equal(cur, newVector)), false)) {
-                        statesToInspect.push(newVector);
-                    }
+                    let newVector = Vector.add(new Vector(JSON.parse(vectorCoordinates)), new Vector([x, y]));
+                    statesToInspect.push(JSON.stringify(newVector.entries));
                 }
             }
         }
-        return statesToInspect;
+        return [...new Set(statesToInspect)];
     },
     evolverFunction: (position, oldState, oldGridState, cellGetterFunction) => {
         let neighbors = -oldState;
         for (let y = -1; y <= 1; y++) {
             for (let x = -1; x <= 1; x++) {
-                let newVector = Vector.add(position, new Vector([x, y]));
-                neighbors += cellGetterFunction(newVector, oldGridState);
+                let newVector = Vector.add(new Vector(JSON.parse(position)), new Vector([x, y]));
+                neighbors += cellGetterFunction(JSON.stringify(newVector.entries), oldGridState);
             }
         }
         switch (oldState) {
@@ -48,11 +46,12 @@ export const gameOfLifeConfig = {
         }
     },
     cellGetterFunction: (position, state) => {
-        for (let entry of state.entries()) {
-            if (Vector.equal(entry[0], position)) {
-                return entry[1];
-            }
-        }
-        return 0;
+        // for(let entry of state.entries()) {
+        //     if(Vector.equal(entry[0], position)) {
+        //         return entry[1];
+        //     }
+        // }
+        var _a;
+        return (_a = state.get(position)) !== null && _a !== void 0 ? _a : 0;
     }
 };

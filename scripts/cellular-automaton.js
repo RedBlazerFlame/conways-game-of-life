@@ -40,7 +40,14 @@ export class CellularAutomaton {
     getStateHistory(startingState, historyLength) {
         let history = [startingState];
         while (history.length < historyLength) {
-            history.push(this.getNewStateFromParameters(history[history.length - 1]));
+            let nextFrame = this.getNewStateFromParameters(history[history.length - 1]);
+            let newFrame = new Map([]);
+            for (let entry of nextFrame.entries()) {
+                if (entry[1] !== 0) {
+                    newFrame.set(entry[0], entry[1]);
+                }
+            }
+            history.push(newFrame);
         }
         return history;
     }

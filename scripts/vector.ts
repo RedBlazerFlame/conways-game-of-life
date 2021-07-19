@@ -15,6 +15,10 @@ export class Vector<T> {
         }
     }
 
+    public static from<T>(array: Array<T>): Vector<T> {
+        return new Vector(array);
+    }
+
     public setEntries(array: Array<T>): Vector<T> {
         if(array.length === this.__entries.length) {
             this.__entries = array;

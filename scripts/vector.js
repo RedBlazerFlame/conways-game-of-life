@@ -14,6 +14,9 @@ export class Vector {
             throw `ValueError: Cannot set property __entries with length ${this.__entries.length} to an array with length ${array.length}`;
         }
     }
+    static from(array) {
+        return new Vector(array);
+    }
     setEntries(array) {
         if (array.length === this.__entries.length) {
             this.__entries = array;

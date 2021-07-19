@@ -1,4 +1,4 @@
-import { CellularAutomatonTypes } from "./cellular-automaton.js";
+import { CellularAutomatonTypes, String2d } from "./cellular-automaton.js";
 import { Vector } from "./vector.js";
 
 export type StateType = "Base" | "Composition";
@@ -26,7 +26,7 @@ export class BaseState {
         let compiledState: CellularAutomatonTypes.State = new Map();
 
         for(let entry of this.__state.entries()) {
-            compiledState.set(Vector.add(this.__origin, entry[0]), entry[1]);
+            compiledState.set(JSON.stringify(Vector.add(this.__origin, Vector.from(JSON.parse(entry[0]))).entries) as String2d, entry[1]);
         }
 
         return compiledState;
@@ -60,13 +60,10 @@ export class CompositionState {
         let compiledStates: Array<CellularAutomatonTypes.State> = this.__state.map(i => i.compile());
         let reducedState: CellularAutomatonTypes.State = compiledStates.reduce((acc, cur) => new Map([...acc, ...cur]), new Map([]));
         let resultState: CellularAutomatonTypes.State = new Map([]);
-        let addedKeys: Array<string> = [];
+        let uniqueKeys: Array<String2d> = [...new Set(reducedState.keys())];
 
-        for(let entry of reducedState.entries()) {
-            if(! addedKeys.includes(JSON.stringify(Vector.add(this.__origin, entry[0])))) {
-                resultState.set(Vector.add(this.__origin, entry[0]), entry[1]);
-                addedKeys.push(JSON.stringify(Vector.add(this.__origin, entry[0])));
-            }
+        for(let key of uniqueKeys) {
+            resultState.set(JSON.stringify(Vector.add(this.__origin, Vector.from(JSON.parse(key))).entries) as String2d, reducedState.get(key));
         }
 
         return resultState;

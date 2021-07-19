@@ -1,4 +1,4 @@
-import { CellularAutomatonTypes } from "./cellular-automaton";
+import { CellularAutomatonTypes, String2d } from "./cellular-automaton";
 import { Grid2d } from "./grid.js";
 import { Vector } from "./vector.js";
 
@@ -12,7 +12,7 @@ export const convertGrid2dToMap = (grid: Grid2d, origin: Vector<number> = new Ve
     for(let y = 0; y < gridDimensions.y; y++) {
         for(let x = 0; x < gridDimensions.x; x++) {
             if(grid[y][x] !== 0) {
-                result.set(Vector.sub(new Vector([x, y]), origin), grid[y][x]);
+                result.set(JSON.stringify(Vector.sub(new Vector([x, y]), origin).entries) as String2d, grid[y][x]);
             }
         }
     }
