@@ -1,3 +1,4 @@
+import { CompositionState } from "./state.js";
 import { Vector } from "./vector.js";
 export const convertMapToGrid2d = (gridState) => {
     var _a;
@@ -17,4 +18,10 @@ export const convertMapToGrid2d = (gridState) => {
         }
     }
     return result;
+};
+export const convertStateArrayToMap = (gridState) => {
+    return (new CompositionState(gridState)).compile();
+};
+export const convertStateArrayToGrid2d = (gridState) => {
+    return convertMapToGrid2d((new CompositionState(gridState)).compile());
 };

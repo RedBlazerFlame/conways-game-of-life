@@ -10,20 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { CellularAutomaton, } from "../scripts/cellular-automaton.js";
 import { gameOfLifeConfig } from "../scripts/game-of-life-configuration.js";
-import { convertGrid2dToMap } from "../scripts/grid-to-map-converter.js";
-import { transform2d } from "../scripts/grid-transforms.js";
 import { presets } from "../scripts/starting-state-presets.js";
-import { BaseState, CompositionState } from "../scripts/state.js";
 import { Vector } from "../scripts/vector.js";
 // Declaring Constants and Variables
-const startingState = new CompositionState([
-    new BaseState(convertGrid2dToMap(transform2d.rotate90cc(presets.gameOfLife.generators.gosperGliderGun.grid)), Vector.from([0, 0])),
-    new BaseState(convertGrid2dToMap(transform2d.rotate90cc(presets.gameOfLife.generators.gosperGliderGun.grid)), Vector.from([30, 0])),
-], Vector.from([0, 0]));
-const compiledStartingState = startingState.compile();
+const startingState = presets.gameOfLife.metuselahs.rPentomino.map;
+const compiledStartingState = startingState;
 const config = gameOfLifeConfig;
 const DEBUG = true;
 const SHOW_SCREEN = true;
+const SCREEN_MIN_X = -80;
+const SCREEN_MIN_Y = -80;
+const SCREEN_MAX_X = 80;
+const SCREEN_MAX_Y = 80;
 config.startingState = compiledStartingState;
 const grid = new CellularAutomaton(config.startingState, config.cellInspectorFunction, config.evolverFunction, config.cellGetterFunction);
 // Declaring Functions
@@ -53,11 +51,11 @@ function delay(timeDelay) {
             SHOW_SCREEN &&
                 (function () {
                     let stateStringRepresentation = "";
-                    for (let y = Math.min(maxY, 40); y >= Math.max(minY, -40); y--) {
-                        for (let x = Math.max(minX, -40); x <= Math.min(maxX, 40); x++) {
-                            // for(let y = maxY; y >= minY; y--) {
-                            //     for(let x = minX; x <= maxX; x++) {
-                            stateStringRepresentation += `${grid.getCell(`[${x},${y}]`, gridState) === 1 ? "#" : " "} `;
+                    // for (let y = Math.min(maxY, SCREEN_MAX_Y); y >= Math.max(minY, SCREEN_MIN_Y); y--) {
+                    //     for (let x = Math.max(minX, SCREEN_MIN_X); x <= Math.min(maxX, SCREEN_MAX_X); x++) {
+                    for (let y = maxY; y >= minY; y--) {
+                        for (let x = minX; x <= maxX; x++) {
+                            stateStringRepresentation += `${(grid.getCell(`[${x},${y}]`, gridState) === 1 ? "#" : " ")} `;
                         }
                         stateStringRepresentation += "\n";
                     }
@@ -73,7 +71,7 @@ function delay(timeDelay) {
             DEBUG && console.timeEnd(`Frame ${iterationCount}`);
             iterationCount++;
             // Delaying by 1 second until the next frame
-            yield delay(0);
+            yield delay(3);
         }
     });
 })();

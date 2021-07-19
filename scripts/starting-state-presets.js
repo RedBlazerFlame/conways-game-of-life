@@ -13,6 +13,13 @@ export function gridMap(grid) {
         map: convertGrid2dToMap(grid)
     };
 }
+// Converts a Grid to an array of grids and map
+export function gridMapHistory(grid, period = 1) {
+    return {
+        states: gameOfLife.getOscillatorStates(grid, period),
+        period: period
+    };
+}
 // Converts a map to grid and map
 export function gridMapFromMap(map) {
     return {
@@ -101,7 +108,7 @@ let heavyweightSpaceship = transform2d.flipY([
     [1, 0, 0, 0, 0, 0, 1],
     [0, 1, 1, 1, 1, 1, 1]
 ]);
-// Generators
+// Guns
 let gosperGliderGun = transform2d.flipY([
     [...zeros(24), 1, ...zeros(11)],
     [...zeros(22), 1, 0, 1, ...zeros(11)],
@@ -129,18 +136,18 @@ export const presets = {
             tub: gridMap(tub)
         },
         oscillators: {
-            blinker: gameOfLife.getOscillatorStates(blinker, 2),
-            toad: gameOfLife.getOscillatorStates(toad, 2),
-            beacon: gameOfLife.getOscillatorStates(beacon, 2),
-            pulsar: gameOfLife.getOscillatorStates(pulsar, 3)
+            blinker: gridMapHistory(blinker, 2),
+            toad: gridMapHistory(toad, 2),
+            beacon: gridMapHistory(beacon, 2),
+            pulsar: gridMapHistory(pulsar, 3)
         },
         spaceships: {
-            glider: gameOfLife.getOscillatorStates(glider, 4),
-            lightweightSpaceship: gameOfLife.getOscillatorStates(lightweightSpaceship, 4),
-            middleweightSpaceship: gameOfLife.getOscillatorStates(middleweightSpaceship, 4),
-            heavyweightSpaceship: gameOfLife.getOscillatorStates(heavyweightSpaceship, 4)
+            glider: gridMapHistory(glider, 4),
+            lightweightSpaceship: gridMapHistory(lightweightSpaceship, 4),
+            middleweightSpaceship: gridMapHistory(middleweightSpaceship, 4),
+            heavyweightSpaceship: gridMapHistory(heavyweightSpaceship, 4)
         },
-        generators: {
+        guns: {
             gosperGliderGun: gridMap(gosperGliderGun)
         },
         metuselahs: {

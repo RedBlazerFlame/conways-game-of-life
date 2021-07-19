@@ -69,7 +69,7 @@ export class CompositionState {
         return resultState;
     }
 
-    constructor(initState: CompositionStateArray, origin: Vector<number>) {
+    constructor(initState: CompositionStateArray, origin: Vector<number> = new Vector([0, 0])) {
         this.__state = initState;
         this.__origin = origin;
     }

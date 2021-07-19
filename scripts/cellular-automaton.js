@@ -58,6 +58,13 @@ export class CellularAutomaton {
             map: i
         }));
     }
+    getOscillatorStatesMap(startingState, historyLength) {
+        let history = this.getStateHistory(startingState, historyLength);
+        return history.map(i => ({
+            grid: convertMapToGrid2d(i),
+            map: i
+        }));
+    }
     updateState(newState) {
         this.__state = newState;
         return this;

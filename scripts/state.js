@@ -24,7 +24,7 @@ export class BaseState {
     }
 }
 export class CompositionState {
-    constructor(initState, origin) {
+    constructor(initState, origin = new Vector([0, 0])) {
         this.__type = "Composition";
         this.__state = initState;
         this.__origin = origin;

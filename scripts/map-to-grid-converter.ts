@@ -1,5 +1,6 @@
 import { CellularAutomatonTypes, String2d } from "./cellular-automaton";
 import { Grid2d } from "./grid.js";
+import { CompositionState, CompositionStateArray } from "./state.js";
 import { Vector } from "./vector.js";
 
 export const convertMapToGrid2d = (gridState: CellularAutomatonTypes.State): Grid2d => {
@@ -21,4 +22,12 @@ export const convertMapToGrid2d = (gridState: CellularAutomatonTypes.State): Gri
     }
 
     return result;
+}
+
+export const convertStateArrayToMap = (gridState: CompositionStateArray): CellularAutomatonTypes.State => {
+    return (new CompositionState(gridState)).compile();
+}
+
+export const convertStateArrayToGrid2d = (gridState: CompositionStateArray): Grid2d => {
+    return convertMapToGrid2d((new CompositionState(gridState)).compile());
 }
