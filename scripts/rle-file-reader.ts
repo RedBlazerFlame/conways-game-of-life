@@ -13,7 +13,7 @@ export function readRLEText(rawText){
 
     let index = 0;
     for(let row of processedData1) {
-        let firstLetter = row.match(/[o|b]/g)[0];
+        let firstLetter = row.match(/[o|b]/g)?.[0] ?? "d";
 
         firstLettersPerRow.push(firstLetter);
         

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { readFile } from "fs/promises";
 export function readRLEText(rawText) {
+    var _a, _b;
     let [header, ...data] = [...rawText.matchAll(/[^\r]/g)].reduce((acc, cur) => acc + cur, "").split("\n").filter(i => (!(i.startsWith("#") || i.startsWith(" "))));
     let processedData1 = data.reduce((acc, cur) => acc + cur, "").split("$");
     let headerJSON = JSON.parse(`{${header.replaceAll(" = ", ":").replace("x", "\"x\"").replace("y", "\"y\"").split(",").slice(0, 2)}}`);
@@ -16,7 +17,7 @@ export function readRLEText(rawText) {
     let firstLettersPerRow = [];
     let index = 0;
     for (let row of processedData1) {
-        let firstLetter = row.match(/[o|b]/g)[0];
+        let firstLetter = (_b = (_a = row.match(/[o|b]/g)) === null || _a === void 0 ? void 0 : _a[0]) !== null && _b !== void 0 ? _b : "d";
         firstLettersPerRow.push(firstLetter);
         let processedRow1 = row.split(/[o|b|!]/g);
         if (index === processedData1.length - 1) {

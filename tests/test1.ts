@@ -12,31 +12,6 @@ import { presets } from "../scripts/starting-state-presets.js";
 import { BaseState, CompositionState, CompositionStateArray } from "../scripts/state.js";
 import { Vector } from "../scripts/vector.js";
 
-// Declaring Constants and Variables
-const startingState = presets.gameOfLife.metuselahs.rPentomino.map;
-
-const compiledStartingState = startingState as CellularAutomatonTypes.State;
-
-const config: CellularAutomatonTypes.AutomataConfiguration = gameOfLifeConfig;
-
-const DEBUG = true;
-
-const SHOW_SCREEN = true;
-
-const SCREEN_MIN_X = -80;
-const SCREEN_MIN_Y = -80;
-const SCREEN_MAX_X = 80;
-const SCREEN_MAX_Y = 80;
-
-config.startingState = compiledStartingState;
-
-const grid: CellularAutomaton = new CellularAutomaton(
-    config.startingState,
-    config.cellInspectorFunction,
-    config.evolverFunction,
-    config.cellGetterFunction
-);
-
 // Declaring Functions
 async function delay(timeDelay: number): Promise<void> {
     return new Promise((resolve) => {
@@ -48,6 +23,32 @@ async function delay(timeDelay: number): Promise<void> {
 
 // Updating State
 (async function main() {
+    // Declaring Constants and Variables
+    const startingState = presets.gameOfLife.metuselahs.rPentomino.map;
+
+    const compiledStartingState = startingState as CellularAutomatonTypes.State;
+
+    const config: CellularAutomatonTypes.AutomataConfiguration = gameOfLifeConfig;
+
+    const DEBUG = true;
+
+    const SHOW_SCREEN = true;
+
+    const SCREEN_MIN_X = -80;
+    const SCREEN_MIN_Y = -80;
+    const SCREEN_MAX_X = 80;
+    const SCREEN_MAX_Y = 80;
+
+    config.startingState = compiledStartingState;
+
+    const grid: CellularAutomaton = new CellularAutomaton(
+        config.startingState,
+        config.cellInspectorFunction,
+        config.evolverFunction,
+        config.cellGetterFunction
+    );
+
+    // Beginning Draw Loop
     let iterationCount = 0;
 
     while (true) {
