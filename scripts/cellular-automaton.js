@@ -23,16 +23,20 @@ export class CellularAutomaton {
     }
     getNewState() {
         let cellsToInspect = this.__getCellsToInspect(this.__state);
+        let cellsToInspectLength = cellsToInspect.length;
         let newState = new Map();
-        for (let cellToInspect of cellsToInspect) {
+        for (let i = 0; i < cellsToInspectLength; i++) {
+            let cellToInspect = cellsToInspect[i];
             newState.set(cellToInspect, this.__evolver(cellToInspect, this.__cellGetterFunction(cellToInspect, this.__state), this.__state, this.__cellGetterFunction));
         }
         return newState;
     }
     getNewStateFromParameters(oldState = this.__state, getCellsToInspect = this.__getCellsToInspect, evolver = this.__evolver, cellGetterFunction = this.__cellGetterFunction) {
         let cellsToInspect = getCellsToInspect(oldState);
+        let cellsToInspectLength = cellsToInspect.length;
         let newState = new Map();
-        for (let cellToInspect of cellsToInspect) {
+        for (let i = 0; i < cellsToInspectLength; i++) {
+            let cellToInspect = cellsToInspect[i];
             newState.set(cellToInspect, evolver(cellToInspect, cellGetterFunction(cellToInspect, oldState), oldState, cellGetterFunction));
         }
         return newState;

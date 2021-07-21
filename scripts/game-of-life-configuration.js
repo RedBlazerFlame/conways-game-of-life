@@ -1,14 +1,16 @@
-import { Vector } from "./vector.js";
 export const gameOfLifeConfig = {
     startingState: new Map([]),
     cellInspectorFunction: (oldState) => {
         let oldStateKeys = [...oldState.entries()].filter(i => i[1] === 1).map(i => i[0]);
+        let oldStateKeysLength = oldStateKeys.length;
         let statesToInspect = [];
-        for (let vectorCoordinates of oldStateKeys) {
+        for (let i = 0; i < oldStateKeysLength; i++) {
+            let vectorCoordinates = oldStateKeys[i];
+            let [coordX, coordY] = JSON.parse(vectorCoordinates);
             for (let y = -1; y <= 1; y++) {
                 for (let x = -1; x <= 1; x++) {
-                    let newVector = Vector.add(new Vector(JSON.parse(vectorCoordinates)), new Vector([x, y]));
-                    statesToInspect.push(JSON.stringify(newVector.entries));
+                    let newPos = [x + coordX, y + coordY];
+                    statesToInspect.push(JSON.stringify(newPos));
                 }
             }
         }
@@ -16,10 +18,11 @@ export const gameOfLifeConfig = {
     },
     evolverFunction: (position, oldState, oldGridState, cellGetterFunction) => {
         let neighbors = -oldState;
+        let [positionVectorX, positionVectorY] = JSON.parse(position);
         for (let y = -1; y <= 1; y++) {
             for (let x = -1; x <= 1; x++) {
-                let newVector = Vector.add(new Vector(JSON.parse(position)), new Vector([x, y]));
-                neighbors += cellGetterFunction(JSON.stringify(newVector.entries), oldGridState);
+                let newPosition = [x + positionVectorX, y + positionVectorY];
+                neighbors += cellGetterFunction(JSON.stringify(newPosition), oldGridState);
             }
         }
         switch (oldState) {
@@ -33,7 +36,6 @@ export const gameOfLifeConfig = {
                         return 0;
                     }
                 }
-                break;
             case 1:
                 {
                     if (neighbors === 2 || neighbors === 3) {
@@ -46,11 +48,6 @@ export const gameOfLifeConfig = {
         }
     },
     cellGetterFunction: (position, state) => {
-        // for(let entry of state.entries()) {
-        //     if(Vector.equal(entry[0], position)) {
-        //         return entry[1];
-        //     }
-        // }
         var _a;
         return (_a = state.get(position)) !== null && _a !== void 0 ? _a : 0;
     }

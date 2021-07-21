@@ -4,6 +4,11 @@ import { Vector } from "./vector.js";
 export type StateType = "Base" | "Composition";
 export type CompositionStateArray = Array<BaseState | CompositionState>;
 
+export const State = {
+    base: (initState: CellularAutomatonTypes.State = new Map([]), origin: Array<number> = [0, 0]) => new BaseState(initState, origin),
+    composition: (initState: CompositionStateArray = [], origin: Array<number> = [0, 0]) => new CompositionState(initState, origin),
+    compile: (initState: CompositionStateArray = [], origin: Array<number> = [0, 0]) => (new CompositionState(initState, origin)).compile()
+};
 export class BaseState {
     private __state: CellularAutomatonTypes.State;
     private __origin: Vector<number>;
@@ -32,9 +37,9 @@ export class BaseState {
         return compiledState;
     }
 
-    constructor(initState: CellularAutomatonTypes.State = new Map([]), origin: Vector<number> = new Vector([0, 0])) {
+    constructor(initState: CellularAutomatonTypes.State = new Map([]), origin: Array<number> = [0, 0]) {
         this.__state = initState;
-        this.__origin = origin;
+        this.__origin = Vector.from(origin);
     }
 }
 
@@ -69,8 +74,8 @@ export class CompositionState {
         return resultState;
     }
 
-    constructor(initState: CompositionStateArray, origin: Vector<number> = new Vector([0, 0])) {
+    constructor(initState: CompositionStateArray, origin: Array<number> = [0, 0]) {
         this.__state = initState;
-        this.__origin = origin;
+        this.__origin = Vector.from(origin);
     }
 }

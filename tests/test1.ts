@@ -1,12 +1,13 @@
 // Importing Libraries
-
+import { readFile } from "fs/promises";
+import path from "path/posix";
 import {
     CellularAutomaton,
     CellularAutomatonTypes,
 } from "../scripts/cellular-automaton.js";
 import { gameOfLifeConfig } from "../scripts/game-of-life-configuration.js";
 import { convertGrid2dToMap } from "../scripts/grid-to-map-converter.js";
-import { transform2d } from "../scripts/grid-transforms.js";
+import { transform2d } from "../scripts/transforms.js";
 import { convertStateArrayToGrid2d } from "../scripts/map-to-grid-converter.js";
 import { presets } from "../scripts/starting-state-presets.js";
 import { BaseState, CompositionState, CompositionStateArray } from "../scripts/state.js";
@@ -24,7 +25,7 @@ async function delay(timeDelay: number): Promise<void> {
 // Updating State
 (async function main() {
     // Declaring Constants and Variables
-    const startingState = presets.gameOfLife.metuselahs.rPentomino.map;
+    const startingState = new Map(JSON.parse(await readFile(path.join(".", "patterns-json", `pentadecathlon.json`), {encoding: "utf-8"})));
 
     const compiledStartingState = startingState as CellularAutomatonTypes.State;
 
@@ -34,10 +35,10 @@ async function delay(timeDelay: number): Promise<void> {
 
     const SHOW_SCREEN = true;
 
-    const SCREEN_MIN_X = -80;
-    const SCREEN_MIN_Y = -80;
-    const SCREEN_MAX_X = 80;
-    const SCREEN_MAX_Y = 80;
+    const SCREEN_MIN_X = -20;
+    const SCREEN_MIN_Y = -20;
+    const SCREEN_MAX_X = 20;
+    const SCREEN_MAX_Y = 20;
 
     config.startingState = compiledStartingState;
 
@@ -58,21 +59,25 @@ async function delay(timeDelay: number): Promise<void> {
         let gridState: CellularAutomatonTypes.State = new Map(
             [...grid.state.entries()].filter((i) => i[1] !== 0)
         );
-        let gridStateVectorKeys: Array<Vector<number>> = [...gridState.keys()].map(i => Vector.from(JSON.parse(i)))
-        let minX = Math.min(...gridStateVectorKeys.map(i => i.entries[0]));
-        let maxX = Math.max(...gridStateVectorKeys.map(i => i.entries[0]));
-        let minY = Math.min(...gridStateVectorKeys.map(i => i.entries[1]));
-        let maxY = Math.max(...gridStateVectorKeys.map(i => i.entries[1]));
+
+        
 
         // Constructing the String Representation of the State
         SHOW_SCREEN &&
             (function () {
+                let gridStateVectorKeys: Array<Vector<number>> = [...gridState.keys()].map(i => Vector.from(JSON.parse(i)))
+                let minX = Math.min(...gridStateVectorKeys.map(i => i.entries[0]));
+                let maxX = Math.max(...gridStateVectorKeys.map(i => i.entries[0]));
+                let minY = Math.min(...gridStateVectorKeys.map(i => i.entries[1]));
+                let maxY = Math.max(...gridStateVectorKeys.map(i => i.entries[1]));
                 let stateStringRepresentation = "";
 
                 // for (let y = Math.min(maxY, SCREEN_MAX_Y); y >= Math.max(minY, SCREEN_MIN_Y); y--) {
                 //     for (let x = Math.max(minX, SCREEN_MIN_X); x <= Math.min(maxX, SCREEN_MAX_X); x++) {
-                for (let y = maxY; y >= minY; y--) {
-                    for (let x = minX; x <= maxX; x++) {
+                for (let y =  SCREEN_MAX_Y; y >=SCREEN_MIN_Y; y--) {
+                    for (let x = SCREEN_MIN_X; x <= SCREEN_MAX_X; x++) {
+                // for (let y = maxY; y >= minY; y--) {
+                //     for (let x = minX; x <= maxX; x++) {
                         stateStringRepresentation += `${(grid.getCell(`[${x},${y}]`, gridState) === 1 ? "#" : " ")} `;
                     }
                     stateStringRepresentation += "\n";
@@ -96,6 +101,6 @@ async function delay(timeDelay: number): Promise<void> {
         iterationCount++;
 
         // Delaying by 1 second until the next frame
-        await delay(3);
+        await delay(5);
     }
 })();

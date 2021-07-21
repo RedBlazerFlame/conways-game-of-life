@@ -1,4 +1,4 @@
-import { CellularAutomatonTypes, String2d } from "./cellular-automaton";
+import { CellularAutomatonTypes, String2d } from "./cellular-automaton.js";
 import { Grid2d } from "./grid.js";
 import { CompositionState, CompositionStateArray } from "./state.js";
 import { Vector } from "./vector.js";

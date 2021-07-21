@@ -1,9 +1,14 @@
 import { Vector } from "./vector.js";
+export const State = {
+    base: (initState = new Map([]), origin = [0, 0]) => new BaseState(initState, origin),
+    composition: (initState = [], origin = [0, 0]) => new CompositionState(initState, origin),
+    compile: (initState = [], origin = [0, 0]) => (new CompositionState(initState, origin)).compile()
+};
 export class BaseState {
-    constructor(initState = new Map([]), origin = new Vector([0, 0])) {
+    constructor(initState = new Map([]), origin = [0, 0]) {
         this.__type = "Base";
         this.__state = initState;
-        this.__origin = origin;
+        this.__origin = Vector.from(origin);
     }
     get state() {
         return this.__state;
@@ -24,10 +29,10 @@ export class BaseState {
     }
 }
 export class CompositionState {
-    constructor(initState, origin = new Vector([0, 0])) {
+    constructor(initState, origin = [0, 0]) {
         this.__type = "Composition";
         this.__state = initState;
-        this.__origin = origin;
+        this.__origin = Vector.from(origin);
     }
     get state() {
         return this.__state;

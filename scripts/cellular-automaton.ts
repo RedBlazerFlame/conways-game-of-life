@@ -44,9 +44,11 @@ export class CellularAutomaton {
 
     public getNewState(): CellularAutomatonTypes.State {
         let cellsToInspect: Array<String2d> = this.__getCellsToInspect(this.__state);
+        let cellsToInspectLength = cellsToInspect.length;
         let newState: CellularAutomatonTypes.State = new Map();
 
-        for(let cellToInspect of cellsToInspect) {
+        for(let i = 0; i < cellsToInspectLength; i++) {
+            let cellToInspect = cellsToInspect[i];
             newState.set(cellToInspect, this.__evolver(cellToInspect, this.__cellGetterFunction(cellToInspect, this.__state), this.__state, this.__cellGetterFunction));
         }
 
@@ -55,9 +57,11 @@ export class CellularAutomaton {
 
     public getNewStateFromParameters(oldState = this.__state, getCellsToInspect = this.__getCellsToInspect, evolver = this.__evolver, cellGetterFunction = this.__cellGetterFunction): CellularAutomatonTypes.State {
         let cellsToInspect: Array<String2d> = getCellsToInspect(oldState);
+        let cellsToInspectLength = cellsToInspect.length;
         let newState: CellularAutomatonTypes.State = new Map();
 
-        for(let cellToInspect of cellsToInspect) {
+        for(let i = 0; i < cellsToInspectLength; i++) {
+            let cellToInspect = cellsToInspect[i];
             newState.set(cellToInspect, evolver(cellToInspect, cellGetterFunction(cellToInspect, oldState), oldState, cellGetterFunction));
         }
 

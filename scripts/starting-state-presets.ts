@@ -1,7 +1,7 @@
 import { CellularAutomaton, CellularAutomatonTypes } from "./cellular-automaton.js";
 import { gameOfLifeConfig } from "./game-of-life-configuration.js";
 import { convertGrid2dToMap } from "./grid-to-map-converter.js";
-import { transform2d } from "./grid-transforms.js";
+import { transform2d } from "./transforms.js";
 import { Grid2d } from "./grid.js";
 import { convertMapToGrid2d } from "./map-to-grid-converter.js";
 import { BaseState, CompositionState } from "./state.js";
